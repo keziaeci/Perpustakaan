@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\User\UserController;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('index');
+// })->name('dashboard')->middleware('auth');
+// // Route::get('/welcome', function () {
+// //     return view('welcome');
+// // });
+
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login' , 'index')->middleware('guest')->name('login');
+    Route::post('/login/auth', 'authenticate')->middleware('guest')->name('login-auth');
+    Route::post('/logout', 'logout')->middleware('auth')->name('logout');
+
+});
+
+Route::controller(BukuController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/' , 'index')->name('dashboard');
+    });
+
+});
+
+Route::controller(TransaksiController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::post('/buku/{buku}/pinjam' , 'store')->name('buku-pinjam');
+    });
+
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/koleksi' , 'index')->name('buku-saya');
+        Route::get('/koleksi/pending' , 'pending')->name('buku-pending');
+    });
+
 });

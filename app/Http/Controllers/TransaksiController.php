@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Http\Requests\StoreTransaksiRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateTransaksiRequest;
+use App\Models\Buku;
 
 class TransaksiController extends Controller
 {
@@ -27,9 +29,16 @@ class TransaksiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransaksiRequest $request)
+    public function store(StoreTransaksiRequest $request, Buku $buku)
     {
-        //
+        $data = Transaksi::create([
+            'user_id' => Auth::user()->id,
+            'buku_id' => $buku->id,
+            'status' => Transaksi::STATUS['Pending'],
+            'jumlah' => 1
+        ]);
+
+        return $data;
     }
 
     /**

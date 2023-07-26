@@ -10,6 +10,9 @@ class Transaksi extends Model
 {
     use HasFactory , HasUuids;
 
+    protected $with = ['user','buku'];
+    protected $guarded = ['id'];
+
     public const STATUS = [
         'Pending' => 'Menunggu',
         'Borrow' => 'Sedang Meminjam',
@@ -20,8 +23,8 @@ class Transaksi extends Model
         return $this->belongsTo(User::class);
     }
 
-    function book() {
+    function buku() {
         return $this->belongsTo(Buku::class);
     }
-
+        
 }

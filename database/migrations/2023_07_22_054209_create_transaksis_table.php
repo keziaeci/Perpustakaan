@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id');
             // $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             // $table->foreignId('buku_id')->constrained('bukus')->cascadeOnDelete();
-            $table->foreignId('user_id');
-            $table->foreignId('buku_id');
-            $table->timestamp('tanggal_pinjam');
+            $table->foreignUuid('user_id');
+            $table->foreignUuid('buku_id');
+            $table->timestamp('tanggal_pinjam')->nullable();
             $table->timestamp('tanggal_kembali')->nullable();
             $table->timestamp('batas_waktu')->nullable();
             $table->string('status' , 100);
