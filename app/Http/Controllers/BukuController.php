@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
+use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('pages.buku.index', [
-            'bukus' => Buku::latest()->get()
+            'bukus' => Buku::latest()->filter($request->search)->get()
         ]);
     }
 
@@ -39,7 +40,10 @@ class BukuController extends Controller
      */
     public function show(Buku $buku)
     {
-        //
+        // dd($buku);
+        return view('pages.buku.detail', [
+            'data' => $buku
+        ]);
     }
 
     /**

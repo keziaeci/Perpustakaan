@@ -15,8 +15,16 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.admin.transaksi' , [
+            'datas' => Transaksi::latest()->status(request('status'))->get()
+        ]);
     }
+    // public function index()
+    // {
+    //     return view('pages.admin.transaksi' , [
+    //         'datas' => Transaksi::latest()->get()
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +42,7 @@ class TransaksiController extends Controller
         $data = Transaksi::create([
             'user_id' => Auth::user()->id,
             'buku_id' => $buku->id,
-            'status' => Transaksi::STATUS['Pending'],
+            'status' => Transaksi::STATUS['Menunggu'],
             'jumlah' => 1
         ]);
 
@@ -54,7 +62,9 @@ class TransaksiController extends Controller
      */
     public function edit(Transaksi $transaksi)
     {
-        //
+        return view('pages.admin.akses_transaksi' , [
+            'data' => $transaksi
+        ]);
     }
 
     /**
@@ -62,7 +72,22 @@ class TransaksiController extends Controller
      */
     public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
-        //
+        // dd($request);
+        $validatedData = $request->validate([
+            'tanggal_pinjam' => 'required',
+            'batas_waktu' => 'required',
+        ]);
+
+        if ($validatedData) {
+            $data = $transaksi->update([
+                'tanggal_pinjam' => $validatedData['tanggal_pinjam'],
+                'batas_waktu' => $validatedData['batas_waktu'],
+                'status' =>  Transaksi::STATUS['Sedang Meminjam']   
+            ]);
+        }
+
+        return $data;
+
     }
 
     /**

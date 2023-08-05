@@ -14,11 +14,24 @@ class Transaksi extends Model
     protected $guarded = ['id'];
 
     public const STATUS = [
-        'Pending' => 'Menunggu',
-        'Borrow' => 'Sedang Meminjam',
-        'Returned' => 'Sudah Mengembalikan',
+        'Menunggu' => 'Pending', 
+        'Sedang Meminjam' => 'Borrow',
+        'Sudah Mengembalikan' => 'Returned',
     ];
 
+    function scopeStatus($query, $status) {
+        $query->when($status ?? false, function($query, $status) {
+            return $query->where("status" , "LIKE" , "%{$status}%");
+        });
+
+        // $query->when($status['borrow'] ?? false, function($query, $borrow) {
+        //     return $query->where("status" , "LIKE" , "%{$borrow}%");
+        // });
+
+        // $query->when($status['returned'] ?? false, function($query, $returned) {
+        //     return $query->where("status" , "LIKE" , "%{$returned}%");
+        // });
+    }
     function user() {
         return $this->belongsTo(User::class);
     }

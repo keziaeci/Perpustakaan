@@ -36,6 +36,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(BukuController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/' , 'index')->name('dashboard');
+        Route::get('/buku/{buku}/detail' , 'show')->name('buku-detail');
     });
 
 });
@@ -43,6 +44,11 @@ Route::controller(BukuController::class)->group(function () {
 Route::controller(TransaksiController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/buku/{buku}/pinjam' , 'store')->name('buku-pinjam');
+        Route::get('/buku/{transaksi}/akses' , 'edit')->name('buku-request-edit');
+        Route::get('/buku/transaksi' , 'index')->name('transaksi');
+        Route::patch('/buku/{transaksi}/store' , 'update')->name('transaksi-store');
+        // Route::get('/buku/transaksi/pinjam' , 'borrowing')->name('transaksi-terpinjam');
+        // Route::get('/buku/transaksi/kembali' , 'index')->name('transaksi-kembali');
     });
 
 });

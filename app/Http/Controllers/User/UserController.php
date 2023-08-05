@@ -11,12 +11,12 @@ class UserController extends Controller
 {
     function index() {
         return view('pages.user.buku' , [
-            'bukus' => Transaksi::where('user_id', Auth::user()->id)->where('status', Transaksi::STATUS['Borrow'])->latest()->get()
+            'datas' => Transaksi::where('user_id', Auth::user()->id)->where('status', Transaksi::STATUS['Sedang Meminjam'])->latest()->get()
         ]);
     }
     function pending() {
         return view('pages.user.pending' , [
-            'datas' => Transaksi::where('user_id', Auth::user()->id)->where('status', Transaksi::STATUS['Pending'])->latest()->get()
+            'datas' => Transaksi::where('user_id', Auth::user()->id)->where('status', Transaksi::STATUS['Menunggu'])->latest()->get()
         ]);
     }
 }

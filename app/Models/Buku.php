@@ -16,4 +16,12 @@ class Buku extends Model
     ];
 
     protected $guarded = ['id'];
+
+    function scopeFilter($query,$filter) {
+        
+        $query->when($filter ?? false , function ($query, $filter) {
+            return $query->where('judul', 'LIKE' , "%{$filter}%")
+            ->orWhere('pengarang', 'LIKE' , "%{$filter}%");
+        });
+    }
 }

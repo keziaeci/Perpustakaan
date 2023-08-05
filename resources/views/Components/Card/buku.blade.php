@@ -4,6 +4,7 @@
         <h2 class="card-title">{{ $judul }}</h2>
         <p>{{ $sinopsis }}</p>
         <div class="card-actions justify-end">
+            <a href="{{ route('buku-detail', $id) }}" class="btn btn-secondary">Detail</a>
             <form action="{{ route('buku-pinjam' , $id) }}" method="post">
                 @csrf
                 @method('post')

@@ -6,8 +6,11 @@
             <a class="tab tab-bordered">Dikembalikan</a>
         </div>
         <div>
-            @foreach ($bukus as $buku)
-                <x-card.buku :judul="$buku->judul" />
+            @foreach ($datas as $data)
+                <x-card.buku :judul="$data->buku->judul" 
+                    :id="$data->buku->id"
+                    :sinopsis="$data->buku->sinopsis" 
+                    />
             @endforeach
         </div>
     </div>
